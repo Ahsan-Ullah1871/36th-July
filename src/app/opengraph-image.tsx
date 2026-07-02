@@ -1,11 +1,17 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "fs";
+import { join } from "path";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = "July Uprising Bangladesh 2024 — 36 Days That Changed History";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function OgImage() {
+  const fontData = readFileSync(
+    join(process.cwd(), "public/fonts/NotoSerifBengali-Black.ttf")
+  );
+
   return new ImageResponse(
     (
       <div
@@ -15,7 +21,7 @@ export default function OgImage() {
           display: "flex",
           position: "relative",
           background: "linear-gradient(160deg,#22160c 0%,#140d06 50%,#0b0703 100%)",
-          fontFamily: '"Georgia", "Times New Roman", serif',
+          fontFamily: '"NotoSerifBengali", Georgia, serif',
         }}
       >
         {/* blood radial overlays */}
@@ -121,6 +127,11 @@ export default function OgImage() {
         }} />
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        { name: "NotoSerifBengali", data: fontData, weight: 900, style: "normal" },
+      ],
+    }
   );
 }
