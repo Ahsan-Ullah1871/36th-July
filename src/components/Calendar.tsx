@@ -3,43 +3,71 @@
 import { useState } from "react";
 import Image from "next/image";
 
+// ── Bayer 4×4 ordered dither helpers ────────────────────────────────────────
+// Full matrix: 0 8 2 10 / 12 4 14 6 / 3 11 1 9 / 15 7 13 5
+const _B12: [number, number][] = [[0, 0], [2, 2]];
+const _B25: [number, number][] = [[0, 0], [2, 0], [0, 2], [2, 2]];
+const _B50: [number, number][] = [[0, 0], [2, 0], [1, 1], [3, 1], [0, 2], [2, 2], [1, 3], [3, 3]];
+const _B75: [number, number][] = [[0, 0], [1, 0], [2, 0], [3, 0], [1, 1], [3, 1], [0, 2], [1, 2], [2, 2], [3, 2], [1, 3], [3, 3]];
+
+function dp(col: string, cells: [number, number][], px: number): string {
+	const g = 4 * px;
+	const rs = cells.map(([x, y]) =>
+		`<rect x="${x * px}" y="${y * px}" width="${px}" height="${px}" fill="${col}"/>`
+	).join("");
+	return `url("data:image/svg+xml,${encodeURIComponent(
+		`<svg xmlns="http://www.w3.org/2000/svg" width="${g}" height="${g}">${rs}</svg>`
+	)}")`;
+}
+
+// Pre-computed wound-line dither (red bleed into dark)
+const D_WOUND_25 = dp("#c42818", _B25, 2);
+
 // ── colour palette ──────────────────────────────────────────────────────────
 const CAT = {
 	red: {
-		base: "#4a0a0a",
+		dark: "#3c0808",
 		border: "#7a1a12",
 		accent: "#d8442e",
 		duo: "#7a1410",
 		tag: "রক্তাক্ত",
-		glow: "0 0 20px rgba(180,32,18,.34), ",
-		wash: "linear-gradient(180deg,rgba(20,2,2,.12) 0%,rgba(40,6,5,.20) 42%,rgba(74,10,10,.86) 100%)",
+		d75: dp("#3c0808", _B75, 2),
+		d50: dp("#3c0808", _B50, 2),
+		d25: dp("#3c0808", _B25, 2),
+		d12: dp("#3c0808", _B12, 2),
 	},
 	amber: {
-		base: "#2d2000",
+		dark: "#2d1e00",
 		border: "#6b4e1e",
 		accent: "#d8a63f",
 		duo: "#6e5016",
 		tag: "গুরুত্বপূর্ণ মোড়",
-		glow: "",
-		wash: "linear-gradient(180deg,rgba(18,12,0,.10) 0%,rgba(30,22,0,.18) 42%,rgba(45,32,0,.88) 100%)",
+		d75: dp("#2d1e00", _B75, 2),
+		d50: dp("#2d1e00", _B50, 2),
+		d25: dp("#2d1e00", _B25, 2),
+		d12: dp("#2d1e00", _B12, 2),
 	},
 	gray: {
-		base: "#241a10",
+		dark: "#1e1510",
 		border: "#4a3a26",
 		accent: "#a08a64",
 		duo: "#463523",
 		tag: "আন্দোলন চলমান",
-		glow: "",
-		wash: "linear-gradient(180deg,rgba(12,9,5,.12) 0%,rgba(24,18,12,.22) 42%,rgba(36,26,16,.88) 100%)",
+		d75: dp("#1e1510", _B75, 2),
+		d50: dp("#1e1510", _B50, 2),
+		d25: dp("#1e1510", _B25, 2),
+		d12: dp("#1e1510", _B12, 2),
 	},
 	green: {
-		base: "#3d2800",
+		dark: "#3d2800",
 		border: "#7a5620",
 		accent: "#e6b850",
 		duo: "#5a3e10",
 		tag: "বিজয়",
-		glow: "0 0 22px rgba(220,168,60,.22), ",
-		wash: "linear-gradient(180deg,rgba(16,10,0,.10) 0%,rgba(30,20,2,.20) 42%,rgba(61,40,0,.86) 100%)",
+		d75: dp("#3d2800", _B75, 2),
+		d50: dp("#3d2800", _B50, 2),
+		d25: dp("#3d2800", _B25, 2),
+		d12: dp("#3d2800", _B12, 2),
 	},
 } as const;
 
@@ -383,8 +411,8 @@ function DayCard({
 
 	const isHighlighted = day.n === 16;
 	const boxShadow = isHighlighted
-		? `0 0 0 2px rgba(245,232,205,.7), 0 0 32px rgba(255,255,255,.32), ${c.glow}inset 0 0 0 1px rgba(0,0,0,.4)`
-		: `${c.glow}inset 0 0 0 1px rgba(0,0,0,.35)`;
+		? `0 0 0 2px rgba(245,232,205,.7), 0 0 28px rgba(255,255,255,.22), inset 0 0 0 1px rgba(0,0,0,.4)`
+		: `inset 0 0 0 1px rgba(0,0,0,.35)`;
 
 	return (
 		<div
@@ -427,7 +455,7 @@ function DayCard({
 							backgroundSize: "cover",
 							backgroundPosition:
 								"center 32%",
-							filter: "grayscale(1) contrast(1.22) brightness(.72)",
+							filter: "url(#newsprint) brightness(.68)",
 						}}
 					/>
 					{/* duo‑tone overlay */}
@@ -441,25 +469,29 @@ function DayCard({
 							pointerEvents: "none",
 						}}
 					/>
+					{/* halftone dot screen — top 60% only, stays clear of text zone */}
+					<div
+						style={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: "40%",
+							backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.55) 0.8px, transparent 0.8px)",
+							backgroundSize: "3px 3px",
+							mixBlendMode: "multiply",
+							opacity: 0.38,
+							pointerEvents: "none",
+						}}
+					/>
 				</>
 			)}
-			{/* wash gradient */}
-			<div
-				style={{
-					position: "absolute",
-					inset: 0,
-					background: c.wash,
-				}}
-			/>
-			{/* inner shadow */}
-			<div
-				style={{
-					position: "absolute",
-					inset: 0,
-					pointerEvents: "none",
-					boxShadow: "inset 0 0 34px rgba(0,0,0,.6), inset 0 0 8px rgba(0,0,0,.5)",
-				}}
-			/>
+			{/* dither wash — solid text zone + stepped fade above */}
+			<div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 48, background: c.dark, pointerEvents: "none" }} />
+			<div style={{ position: "absolute", bottom: 48, left: 0, right: 0, height: 8, backgroundImage: c.d75, backgroundSize: "8px 8px", pointerEvents: "none" }} />
+			<div style={{ position: "absolute", bottom: 56, left: 0, right: 0, height: 8, backgroundImage: c.d50, backgroundSize: "8px 8px", pointerEvents: "none" }} />
+			<div style={{ position: "absolute", bottom: 64, left: 0, right: 0, height: 8, backgroundImage: c.d25, backgroundSize: "8px 8px", pointerEvents: "none" }} />
+			<div style={{ position: "absolute", bottom: 72, left: 0, right: 0, height: 8, backgroundImage: c.d12, backgroundSize: "8px 8px", pointerEvents: "none" }} />
 			{/* text content */}
 			<div
 				style={{
@@ -534,8 +566,7 @@ function DayCard({
 						fontSize: 18,
 						lineHeight: 1,
 						color: "#f0c8b4",
-						textShadow:
-							"0 0 10px rgba(220,50,30,.85), 0 1px 2px #000",
+						textShadow: "0 1px 3px rgba(0,0,0,.9)",
 					}}
 				>
 					☪
@@ -712,8 +743,10 @@ export default function Calendar() {
 				padding: "44px 20px 60px",
 				display: "flex",
 				justifyContent: "center",
-				background:
-					"radial-gradient(120% 80% at 50% 0%,#22160c 0%,#140d06 55%,#0b0703 100%)",
+				backgroundImage:
+					`${GRAIN_BG}, radial-gradient(120% 80% at 50% 0%,#22160c 0%,#140d06 55%,#0b0703 100%)`,
+				backgroundSize: "160px 160px, cover",
+				backgroundBlendMode: "overlay, normal",
 				fontFamily: "'Hind Siliguri', sans-serif",
 			}}
 		>
@@ -746,6 +779,42 @@ export default function Calendar() {
 					}}
 				/>
 
+				{/* ── SVG filter defs (newsprint posterize) ── */}
+				<svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+					<defs>
+						<filter id="newsprint" colorInterpolationFilters="sRGB">
+							{/* desaturate */}
+							<feColorMatrix type="saturate" values="0" result="g" />
+							{/* crush contrast: slope>1 + negative intercept pushes midtones toward extremes */}
+							<feComponentTransfer in="g" result="b">
+								<feFuncR type="linear" slope="1.55" intercept="-0.18" />
+								<feFuncG type="linear" slope="1.55" intercept="-0.18" />
+								<feFuncB type="linear" slope="1.55" intercept="-0.18" />
+							</feComponentTransfer>
+							{/* posterize to 4 discrete levels → flat-toned newsprint look */}
+							<feComponentTransfer in="b">
+								<feFuncR type="discrete" tableValues="0 0.28 0.62 1" />
+								<feFuncG type="discrete" tableValues="0 0.28 0.62 1" />
+								<feFuncB type="discrete" tableValues="0 0.28 0.62 1" />
+							</feComponentTransfer>
+						</filter>
+					</defs>
+				</svg>
+
+				{/* ── film grain overlay (covers entire calendar) ── */}
+				<div
+					style={{
+						position: "absolute",
+						inset: 0,
+						backgroundImage: GRAIN_BG,
+						backgroundSize: "160px 160px",
+						opacity: 0.045,
+						mixBlendMode: "overlay",
+						pointerEvents: "none",
+						zIndex: 50,
+					}}
+				/>
+
 				{/* ── HERO HEADER ── */}
 				<header
 					style={{
@@ -766,18 +835,21 @@ export default function Calendar() {
 							height: "100%",
 							objectFit: "cover",
 							objectPosition: "center 42%",
-							filter: "grayscale(1) contrast(1.18) brightness(.5)",
+							filter: "url(#newsprint) brightness(.5)",
 							opacity: 0.68,
 						}}
 					/>
-					<div
-						style={{
-							position: "absolute",
-							inset: 0,
-							background:
-								"linear-gradient(180deg,rgba(15,9,4,.5) 0%,rgba(20,12,5,.38) 45%,rgba(14,8,4,.8) 100%), radial-gradient(80% 60% at 50% 30%,rgba(120,22,14,.24),transparent 65%)",
-						}}
-					/>
+					{/* flat dark veil */}
+					<div style={{ position: "absolute", inset: 0, background: "rgba(14,8,4,.54)" }} />
+					{/* warm red bloom */}
+					<div style={{ position: "absolute", inset: 0, background: "radial-gradient(80% 60% at 50% 30%,rgba(120,22,14,.18),transparent 65%)" }} />
+					{/* scanlines */}
+					<div style={{
+						position: "absolute",
+						inset: 0,
+						backgroundImage: "repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 3px)",
+						pointerEvents: "none",
+					}} />
 					<div
 						style={{
 							position: "relative",
@@ -854,10 +926,9 @@ export default function Calendar() {
 								alignItems: "center",
 								gap: 20,
 								padding: "12px 26px",
-								border: "1px solid rgba(216,68,46,.4)",
+								border: "1px solid rgba(216,68,46,.35)",
 								background:
 									"rgba(30,8,5,.5)",
-								boxShadow: "0 0 30px rgba(120,20,12,.3)",
 							}}
 						>
 							<div
@@ -925,17 +996,12 @@ export default function Calendar() {
 							১লা&nbsp;জুলাই&nbsp;—&nbsp;৫ই&nbsp;আগস্ট,&nbsp;২০২৪
 						</div>
 					</div>
-					{/* wound line */}
-					<div
-						style={{
-							position: "relative",
-							zIndex: 1,
-							height: 3,
-							background:
-								"linear-gradient(90deg,transparent 0%,#6e120b 12%,#d33322 50%,#6e120b 88%,transparent 100%)",
-							boxShadow: "0 0 14px rgba(200,40,26,.6)",
-						}}
-					/>
+					{/* wound line — dither bleed */}
+					<div style={{ position: "relative", zIndex: 1 }}>
+						<div style={{ height: 2, backgroundImage: D_WOUND_25, backgroundSize: "8px 8px" }} />
+						<div style={{ height: 3, background: "#c42818" }} />
+						<div style={{ height: 2, backgroundImage: D_WOUND_25, backgroundSize: "8px 8px" }} />
+					</div>
 				</header>
 
 				{/* ── MAIN BODY ── */}

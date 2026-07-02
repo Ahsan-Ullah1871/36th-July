@@ -514,8 +514,10 @@ export default function CalendarMobile() {
 				padding: "24px 0 40px",
 				display: "flex",
 				justifyContent: "center",
-				background:
-					"radial-gradient(120% 60% at 50% 0%,#22160c 0%,#140d06 55%,#0b0703 100%)",
+				backgroundImage:
+					`${GRAIN_BG}, radial-gradient(120% 60% at 50% 0%,#22160c 0%,#140d06 55%,#0b0703 100%)`,
+				backgroundSize: "160px 160px, cover",
+				backgroundBlendMode: "overlay, normal",
 				fontFamily: "'Hind Siliguri', sans-serif",
 			}}
 		>
@@ -545,6 +547,39 @@ export default function CalendarMobile() {
 					}}
 				/>
 
+				{/* ── SVG filter defs (newsprint posterize) ── */}
+				<svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+					<defs>
+						<filter id="newsprint" colorInterpolationFilters="sRGB">
+							<feColorMatrix type="saturate" values="0" result="g" />
+							<feComponentTransfer in="g" result="b">
+								<feFuncR type="linear" slope="1.55" intercept="-0.18" />
+								<feFuncG type="linear" slope="1.55" intercept="-0.18" />
+								<feFuncB type="linear" slope="1.55" intercept="-0.18" />
+							</feComponentTransfer>
+							<feComponentTransfer in="b">
+								<feFuncR type="discrete" tableValues="0 0.28 0.62 1" />
+								<feFuncG type="discrete" tableValues="0 0.28 0.62 1" />
+								<feFuncB type="discrete" tableValues="0 0.28 0.62 1" />
+							</feComponentTransfer>
+						</filter>
+					</defs>
+				</svg>
+
+				{/* ── film grain overlay ── */}
+				<div
+					style={{
+						position: "absolute",
+						inset: 0,
+						backgroundImage: GRAIN_BG,
+						backgroundSize: "160px 160px",
+						opacity: 0.045,
+						mixBlendMode: "overlay",
+						pointerEvents: "none",
+						zIndex: 50,
+					}}
+				/>
+
 				{/* ── HERO HEADER ── */}
 				<header
 					style={{
@@ -564,7 +599,7 @@ export default function CalendarMobile() {
 							height: "100%",
 							objectFit: "cover",
 							objectPosition: "center 42%",
-							filter: "grayscale(1) contrast(1.18) brightness(.35)",
+							filter: "url(#newsprint) brightness(.38)",
 							opacity: 0.5,
 						}}
 					/>
@@ -576,6 +611,13 @@ export default function CalendarMobile() {
 								"linear-gradient(180deg,rgba(15,9,4,.75) 0%,rgba(20,12,5,.68) 45%,rgba(14,8,4,.92) 100%)",
 						}}
 					/>
+					{/* scanlines */}
+					<div style={{
+						position: "absolute",
+						inset: 0,
+						backgroundImage: "repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 3px)",
+						pointerEvents: "none",
+					}} />
 					<div
 						style={{
 							position: "relative",
@@ -889,7 +931,7 @@ export default function CalendarMobile() {
 														"cover",
 													backgroundPosition:
 														"center 30%",
-													filter: "grayscale(1) contrast(1.2) brightness(.78)",
+													filter: "url(#newsprint) brightness(.72)",
 												}}
 											/>
 											<div
@@ -905,6 +947,16 @@ export default function CalendarMobile() {
 														"none",
 												}}
 											/>
+											{/* halftone dot screen */}
+											<div style={{
+												position: "absolute",
+												inset: 0,
+												backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.55) 0.8px, transparent 0.8px)",
+												backgroundSize: "3px 3px",
+												mixBlendMode: "multiply",
+												opacity: 0.38,
+												pointerEvents: "none",
+											}} />
 										</>
 									)}
 									{/* left-to-right fade */}
