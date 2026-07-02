@@ -805,7 +805,8 @@ export default function Calendar() {
 								}}
 							/>
 							<span>
-								জুলাই ২০২৪ · গণঅভ্যুত্থান
+								জুলাই ২০২৪ ·
+								গণঅভ্যুত্থান
 							</span>
 							<span
 								style={{
@@ -1125,7 +1126,7 @@ export default function Calendar() {
 								objectPosition:
 									"center 84%",
 								filter: "grayscale(1) sepia(.85) saturate(1.7) brightness(.72)",
-								opacity: 0.2,
+								opacity: 0.5,
 							}}
 						/>
 						<div
