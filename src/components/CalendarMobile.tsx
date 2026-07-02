@@ -178,8 +178,8 @@ export default function CalendarMobile() {
           <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "34px 18px 22px" }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 9,
-              color: "#d8a63f", fontWeight: 600, letterSpacing: ".34em",
-              fontSize: 10, textTransform: "uppercase",
+              color: "#d8a63f", fontWeight: 600,
+              fontSize: 12,
             }}>
               <span style={{ width: 22, height: 1, background: "linear-gradient(90deg,transparent,#d8a63f)" }} />
               <span>জুলাই&nbsp;২০২৪&nbsp;·&nbsp;গণঅভ্যুত্থান</span>
@@ -188,8 +188,8 @@ export default function CalendarMobile() {
             <h1 style={{
               fontFamily: "'Noto Serif Bengali',serif", fontWeight: 900,
               color: "#f5e6c8", fontSize: 40, lineHeight: 1.04,
-              margin: "12px 0 6px", letterSpacing: "-.01em",
-              textShadow: "0 2px 0 #000, 0 2px 18px rgba(0,0,0,.9), 0 0 40px rgba(190,44,26,.35)",
+              margin: "12px 0 6px",
+              textShadow: "0 2px 0 #000, 0 2px 14px rgba(0,0,0,.85)",
             }}>জুলাই<br />গণঅভ্যুত্থান</h1>
             <p style={{
               fontFamily: "'Noto Serif Bengali',serif", fontWeight: 600,
@@ -206,16 +206,15 @@ export default function CalendarMobile() {
               <div style={{
                 fontFamily: "'Noto Serif Bengali',serif", fontWeight: 900,
                 fontSize: 32, lineHeight: .9, color: "#e8543c",
-                textShadow: "0 0 18px rgba(200,40,26,.5)",
               }}>৮৫৪+</div>
               <div style={{ width: 1, height: 30, background: "rgba(216,68,46,.4)" }} />
               <div style={{ textAlign: "left", lineHeight: 1.2 }}>
                 <div style={{ fontFamily: "'Noto Serif Bengali',serif", fontWeight: 700, fontSize: 15, color: "#f5e6c8" }}>শহীদ</div>
-                <div style={{ fontSize: 10.5, color: "#b7a888", letterSpacing: ".03em" }}>অগণিত আহত</div>
+                <div style={{ fontSize: 10.5, color: "#b7a888" }}>অগণিত আহত</div>
               </div>
             </div>
 
-            <div style={{ color: "#a89377", fontSize: 10.5, letterSpacing: ".22em", marginTop: 16 }}>
+            <div style={{ color: "#a89377", fontSize: 10.5, marginTop: 16 }}>
               ১লা&nbsp;জুলাই&nbsp;—&nbsp;৫ই&nbsp;আগস্ট,&nbsp;২০২৪
             </div>
           </div>
@@ -245,7 +244,7 @@ export default function CalendarMobile() {
               <span style={{ fontSize: 12, color: "#f0c8b4" }}>☪</span>
               <span style={{
                 fontFamily: "'Noto Serif Bengali',serif", fontWeight: 800,
-                fontSize: 10, letterSpacing: ".1em", color: "#f7ecd2", whiteSpace: "nowrap",
+                fontSize: 10, color: "#f7ecd2", whiteSpace: "nowrap",
               }}>শহীদ স্মরণে</span>
             </div>
             <div style={{
@@ -377,15 +376,15 @@ export default function CalendarMobile() {
               <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                 <span style={{
                   fontFamily: "'Noto Serif Bengali',serif", fontWeight: 800,
-                  fontSize: 11, letterSpacing: ".24em", color: "#1a1200",
+                  fontSize: 11, color: "#1a1200",
                   background: "#ffd700", padding: "4px 10px",
                 }}>দিন ৩৬</span>
-                <span style={{ fontSize: 11, letterSpacing: ".24em", color: "#e8d3a0" }}>৫ই আগস্ট, ২০২৪</span>
+                <span style={{ fontSize: 11, color: "#e8d3a0" }}>৫ই আগস্ট, ২০২৪</span>
               </div>
               <div style={{
                 fontFamily: "'Noto Serif Bengali',serif", fontWeight: 900,
-                fontSize: 92, lineHeight: .8, color: "#ffd700", letterSpacing: "-.01em",
-                textShadow: "0 3px 0 #2a2000, 0 0 44px rgba(255,200,50,.5), 0 3px 18px rgba(0,0,0,.85)",
+                fontSize: 92, lineHeight: .8, color: "#ffd700",
+                textShadow: "0 3px 0 #2a2000, 0 3px 14px rgba(0,0,0,.85)",
               }}>বিজয়</div>
               <div style={{
                 fontFamily: "'Noto Serif Bengali',serif", fontWeight: 600,
@@ -413,7 +412,7 @@ export default function CalendarMobile() {
               </div>
             ))}
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 14, color: "#f0c8b4", textShadow: "0 0 8px rgba(220,50,30,.75)" }}>☪</span>
+              <span style={{ fontSize: 14, color: "#f0c8b4" }}>☪</span>
               <span style={{ fontSize: 12, color: "#c9b795" }}>শহীদ হয়েছেন</span>
             </div>
           </div>
@@ -430,16 +429,16 @@ export default function CalendarMobile() {
                 padding: "9px 14px",
                 borderTop: i > 0 ? "1px solid #2f2417" : undefined,
               }}>
-                <span style={{ fontSize: 12, letterSpacing: ".06em", color: "#8a7550" }}>{s.phase}</span>
+                <span style={{ fontSize: 12, color: "#8a7550" }}>{s.phase}</span>
                 <span style={{ fontFamily: "'Noto Serif Bengali',serif", fontWeight: 800, fontSize: 16, color: s.color }}>{s.count}</span>
               </div>
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: 20, color: "#6d5c42", fontSize: 11, letterSpacing: ".05em", lineHeight: 1.7 }}>
+          <div style={{ textAlign: "center", marginTop: 20, color: "#6d5c42", fontSize: 11, lineHeight: 1.7 }}>
             যেকোনো দিনে ট্যাপ করে সেই দিনের পূর্ণ বিবরণ দেখুন।<br />
             <span style={{ color: "#8a7550" }}>শহীদদের স্মৃতির উদ্দেশ্যে নিবেদিত</span><br />
-            <span style={{ display: "inline-block", marginTop: 6, color: "#8a7550", letterSpacing: ".1em" }}>
+            <span style={{ display: "inline-block", marginTop: 6, color: "#8a7550" }}>
               তথ্য ও ছবি সূত্র&nbsp;:&nbsp;<span style={{ color: "#c9b795", fontWeight: 600 }}>বিবিসি বাংলা</span>
             </span>
           </div>

@@ -623,7 +623,6 @@ function Lightbox({ day, onClose }: { day: OpenDay; onClose: () => void }) {
 					<div
 						style={{
 							fontSize: 11,
-							letterSpacing: ".16em",
 							textTransform: "uppercase",
 							color: "#120d08",
 							fontWeight: 700,
@@ -794,10 +793,7 @@ export default function Calendar() {
 								gap: 14,
 								color: "#d8a63f",
 								fontWeight: 600,
-								letterSpacing: ".42em",
-								fontSize: 13,
-								textTransform:
-									"uppercase",
+								fontSize: 14,
 							}}
 						>
 							<span
@@ -809,7 +805,7 @@ export default function Calendar() {
 								}}
 							/>
 							<span>
-								জুলাই&nbsp;২০২৪&nbsp;·&nbsp;গণঅভ্যুত্থান
+								জুলাই ২০২৪ · গণঅভ্যুত্থান
 							</span>
 							<span
 								style={{
@@ -829,10 +825,8 @@ export default function Calendar() {
 								fontSize: 88,
 								lineHeight: 0.96,
 								margin: "16px 0 8px",
-								letterSpacing:
-									"-.015em",
 								textShadow:
-									"0 3px 0 #000, 0 2px 24px rgba(0,0,0,.9), 0 0 60px rgba(190,44,26,.35)",
+									"0 2px 0 #000, 0 2px 16px rgba(0,0,0,.85)",
 							}}
 						>
 							জুলাই গণঅভ্যুত্থান
@@ -845,7 +839,6 @@ export default function Calendar() {
 								color: "#e4d3b0",
 								fontSize: 23,
 								margin: "6px 0 22px",
-								letterSpacing: ".01em",
 								textShadow:
 									"0 1px 6px rgba(0,0,0,.9)",
 							}}
@@ -879,8 +872,6 @@ export default function Calendar() {
 										fontSize: 44,
 										lineHeight: 0.9,
 										color: "#e8543c",
-										textShadow:
-											"0 0 22px rgba(200,40,26,.5)",
 									}}
 								>
 									৮৫৪+
@@ -915,8 +906,6 @@ export default function Calendar() {
 									style={{
 										fontSize: 12.5,
 										color: "#b7a888",
-										letterSpacing:
-											".04em",
 									}}
 								>
 									অগণিত আহত · একটি
@@ -929,7 +918,6 @@ export default function Calendar() {
 							style={{
 								color: "#a89377",
 								fontSize: 13,
-								letterSpacing: ".28em",
 								marginTop: 20,
 							}}
 						>
@@ -998,8 +986,6 @@ export default function Calendar() {
 										"'Noto Serif Bengali', serif",
 									fontWeight: 800,
 									fontSize: 12,
-									letterSpacing:
-										".14em",
 									color: "#f7ecd2",
 									whiteSpace:
 										"nowrap",
@@ -1028,8 +1014,6 @@ export default function Calendar() {
 										"'Noto Serif Bengali', serif",
 									fontSize: 14,
 									color: "#e6c9a0",
-									letterSpacing:
-										".02em",
 								}}
 							>
 								<span
@@ -1071,8 +1055,6 @@ export default function Calendar() {
 									fontWeight: 700,
 									fontSize: 14,
 									color: "#8a7550",
-									letterSpacing:
-										".06em",
 									padding: "6px 0",
 									borderBottom:
 										"1px solid #3a2c1b",
@@ -1085,43 +1067,6 @@ export default function Calendar() {
 
 					{/* Calendar grid */}
 					<div style={{ position: "relative" }}>
-						{/* ghost watermark */}
-						<div
-							style={{
-								position: "absolute",
-								inset: 0,
-								zIndex: 6,
-								display: "flex",
-								alignItems: "center",
-								justifyContent:
-									"center",
-								pointerEvents: "none",
-								opacity: 0.09,
-								mixBlendMode:
-									"soft-light",
-							}}
-						>
-							<div
-								style={{
-									fontFamily:
-										"'Noto Serif Bengali', serif",
-									fontWeight: 900,
-									fontSize: 98,
-									lineHeight: 1.22,
-									textAlign: "center",
-									color: "#f7ecd2",
-									letterSpacing:
-										".01em",
-									textShadow:
-										"0 2px 6px rgba(0,0,0,.4)",
-								}}
-							>
-								তাদের রক্তে লেখা হয়েছে
-								<br />
-								নতুন বাংলাদেশের ইতিহাস
-							</div>
-						</div>
-
 						<div
 							style={{
 								display: "grid",
@@ -1226,8 +1171,6 @@ export default function Calendar() {
 											"'Noto Serif Bengali', serif",
 										fontWeight: 800,
 										fontSize: 13,
-										letterSpacing:
-											".3em",
 										color: "#1a1200",
 										background:
 											"#ffd700",
@@ -1239,8 +1182,6 @@ export default function Calendar() {
 								<span
 									style={{
 										fontSize: 13,
-										letterSpacing:
-											".3em",
 										color: "#e8d3a0",
 									}}
 								>
@@ -1255,10 +1196,8 @@ export default function Calendar() {
 									fontSize: 158,
 									lineHeight: 0.8,
 									color: "#ffd700",
-									letterSpacing:
-										"-.01em",
 									textShadow:
-										"0 4px 0 #2a2000, 0 0 62px rgba(255,200,50,.5), 0 4px 26px rgba(0,0,0,.85)",
+										"0 4px 0 #2a2000, 0 4px 20px rgba(0,0,0,.85)",
 								}}
 							>
 								বিজয়
@@ -1326,10 +1265,7 @@ export default function Calendar() {
 									"'Noto Serif Bengali', serif",
 								fontWeight: 700,
 								fontSize: 13,
-								letterSpacing: ".2em",
 								color: "#7a6b52",
-								textTransform:
-									"uppercase",
 								marginRight: 4,
 							}}
 						>
@@ -1393,8 +1329,6 @@ export default function Calendar() {
 								style={{
 									fontSize: 16,
 									color: "#f0c8b4",
-									textShadow:
-										"0 0 8px rgba(220,50,30,.75)",
 								}}
 							>
 								☪
@@ -1454,8 +1388,6 @@ export default function Calendar() {
 								<div
 									style={{
 										fontSize: 11,
-										letterSpacing:
-											".12em",
 										color: "#8a7550",
 										marginBottom: 3,
 									}}
@@ -1483,7 +1415,6 @@ export default function Calendar() {
 							marginTop: 26,
 							color: "#6d5c42",
 							fontSize: 12,
-							letterSpacing: ".06em",
 							lineHeight: 1.7,
 						}}
 					>
@@ -1501,7 +1432,6 @@ export default function Calendar() {
 								display: "inline-block",
 								marginTop: 8,
 								color: "#8a7550",
-								letterSpacing: ".14em",
 							}}
 						>
 							তথ্য ও ছবি সূত্র&nbsp;:&nbsp;
